@@ -6,6 +6,8 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
+app.set("json spaces", 2);
+
 // middlewares
 app.use(helmet());
 app.use(express.json());
@@ -20,6 +22,10 @@ app.use(
 
 // routes
 app.use("/api/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.json({ message: "Api is running..." });
+});
 
 // test protected route
 const { requireAuth } = require("./middleware/auth");
