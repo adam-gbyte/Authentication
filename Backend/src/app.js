@@ -30,9 +30,10 @@ app.get("/", (req, res) => {
 // test protected route
 const { requireAuth } = require("./middleware/auth");
 app.get("/api/protected", requireAuth, (req, res) => {
+  const user = req.user;
   res.json({
     message: "Ini adalah kalimat yang di protect atau di jaga.",
-    user: req.user,
+    user: user,
   });
 });
 
