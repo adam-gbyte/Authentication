@@ -2,8 +2,12 @@
   "name": "authentication",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "Frontend",
+    "Backend"
+  ],
   "scripts": {
-    "start": "concurrently \"npm run dev --prefix Backend\" \"npm run dev --prefix Frontend\""
+    "start": "concurrently \"npm run dev --workspace Backend\" \"npm run dev --workspace Frontend\""
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
