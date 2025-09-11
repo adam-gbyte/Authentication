@@ -1,4 +1,3 @@
-````markdown
 # Authentication Project (Monorepo)
 
 Project ini menggunakan **npm workspaces** untuk mengatur 2 module utama:
@@ -83,8 +82,3 @@ Authentication/
 ---
 
 ✨ Dengan setup workspace ini, dependency bisa dipisahkan sesuai kebutuhan tiap module tapi tetap gampang dikelola dari root.
-
-```
-
-Mau saya tambahin juga contoh **workflow development** (misal: kalau ngedit frontend harus buka `localhost:5173`, backend `localhost:3000`, dll)?
-```
