@@ -3,7 +3,7 @@
 Project ini menggunakan **npm workspaces** untuk mengatur 2 module utama:
 
 - **Frontend** → SvelteKit
-- **Backend** → (misalnya Express / Node.js)
+- **Backend** → Express / Node.js
 
 ## .env
 
@@ -22,7 +22,6 @@ CLIENT_ORIGIN = http://localhost:5173
 
 EMAIL_USER = example@gmail.com
 EMAIL_PASS = Pass_email
-BASE_URL = http://localhost:3000
 ```
 
 File **.env** di Frontend
@@ -104,7 +103,3 @@ Authentication/
 ├── package.json   # Workspace config + root scripts
 └── README.md
 ```
-
----
-
-✨ Dengan setup workspace ini, dependency bisa dipisahkan sesuai kebutuhan tiap module tapi tetap gampang dikelola dari root.

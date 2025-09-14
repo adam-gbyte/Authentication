@@ -43,7 +43,7 @@
 		{:else}
 			<p class="mb-6 text-gray-600">{data.message}</p>
 			{#if $user}
-				<p class="mb-4 text-gray-700">Welcome, {$user.name}!</p>
+				<p class="mb-4 text-gray-700">Welcome, {$user.username}!</p>
 			{/if}
 
 			<button

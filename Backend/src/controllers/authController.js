@@ -6,9 +6,9 @@ const { signAccessToken, verifyToken } = require("../utils/token");
 const { registerSchema, loginSchema } = require("../utils/validators");
 const { sendVerificationEmail } = require("../utils/mailer.js");
 
-const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || "12", 10);
-const ACCESS_EXP = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
-const REFRESH_EXP = process.env.REFRESH_TOKEN_EXPIRES_IN || "7d";
+const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10);
+const ACCESS_EXP = process.env.ACCESS_TOKEN_EXPIRES_IN;
+const REFRESH_EXP = process.env.REFRESH_TOKEN_EXPIRES_IN;
 
 const MAX_FAILED = 5;
 const LOCK_TIME = 15 * 60 * 1000; // 15 minutes
@@ -44,7 +44,7 @@ const register = async (req, res) => {
     //   expiresIn: "1d",
     // });
 
-    const verifyUrl = `${process.env.BASE_URL}/auth/verifyy/${token}`;
+    const verifyUrl = `${process.env.CLIENT_ORIGIN}/verify/${token}`;
     await sendVerificationEmail(email, verifyUrl);
 
     return res.status(201).json({
