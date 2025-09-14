@@ -2,7 +2,9 @@ const express = require("express");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 const app = express();
 
@@ -22,6 +24,7 @@ app.use(
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api", userRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Api is running..." });

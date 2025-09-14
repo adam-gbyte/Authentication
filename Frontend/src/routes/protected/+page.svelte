@@ -20,6 +20,11 @@
 				headers: { Authorization: `Bearer ${token}` }
 			});
 			data = res.data;
+
+			const userRes = await api.get('/user', {
+				headers: { Authorization: `Bearer ${token}` }
+			});
+			user.set(userRes.data);
 		} else {
 			data = '';
 		}
@@ -44,6 +49,10 @@
 			<p class="mb-6 text-gray-600">{data.message}</p>
 			{#if $user}
 				<p class="mb-4 text-gray-700">Welcome, {$user.username}!</p>
+				<p class="mb-4 text-gray-700">Email : {$user.email}!</p>
+				<p class="mb-4 text-gray-700">Sebagai {$user.roles}!</p>
+				<p class="mb-4 text-gray-700">Verifikasi email {$user.isVerified}!</p>
+				<p class="mb-4 text-gray-700">Dibuat, {$user.createdAt}!</p>
 			{/if}
 
 			<button

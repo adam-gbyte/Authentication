@@ -40,9 +40,6 @@ const register = async (req, res) => {
       process.env.JWT_ACCESS_SECRET,
       "1d",
     );
-    // const token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, {
-    //   expiresIn: "1d",
-    // });
 
     const verifyUrl = `${process.env.CLIENT_ORIGIN}/verify/${token}`;
     await sendVerificationEmail(email, verifyUrl);
@@ -63,10 +60,6 @@ const verify = async (req, res) => {
       req.params.token,
       process.env.JWT_ACCESS_SECRET,
     );
-    // const { email } = jwt.verify(
-    //   req.params.token,
-    //   process.env.JWT_ACCESS_SECRET,
-    // );
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -135,7 +128,14 @@ const login = async (req, res) => {
 
     // create tokens
     const accessToken = signAccessToken(
-      { sub: user._id, roles: user.roles },
+      {
+        sub: user._id,
+        roles: user.roles,
+        email: user.email,
+        username: user.username,
+        isVerified: user.isVerified,
+        createdAt: user.createdAt,
+      },
       process.env.JWT_ACCESS_SECRET,
       ACCESS_EXP,
     );
@@ -153,7 +153,7 @@ const login = async (req, res) => {
 
     return res.json({
       accessToken,
-      user: { id: user._id, email: user.email, name: user.name },
+      user: { id: user._id, email: user.email, username: user.username },
     });
   } catch (err) {
     console.error(err);
