@@ -12,6 +12,11 @@ export async function login(credentials) {
 	user.set(res.data.user);
 }
 
+export async function verify(token) {
+	const res = await api.post(`/auth/verify/${token}`);
+	return res.data;
+}
+
 export async function refresh() {
 	try {
 		const res = await api.post('/auth/refresh');

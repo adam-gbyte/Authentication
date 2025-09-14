@@ -1,8 +1,10 @@
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const User = require("../models/User");
-const { signAccessToken } = require("../utils/token");
+const { signAccessToken, verifyToken } = require("../utils/token");
 const { registerSchema, loginSchema } = require("../utils/validators");
+const { sendVerificationEmail } = require("../utils/mailer.js");
 
 const SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || "12", 10);
 const ACCESS_EXP = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
@@ -19,23 +21,69 @@ const hashRefreshToken = async (token) => {
 const register = async (req, res) => {
   try {
     const { error, value } = registerSchema.validate(req.body);
-    if (error)
+    if (error) {
       return res.status(400).json({ message: error.details[0].message });
+    }
 
-    const { email, password, name } = value;
+    const { email, password, username } = value;
     const existing = await User.findOne({ email });
-    if (existing)
+    if (existing) {
       return res.status(409).json({ message: "Email sudah terdaftar" });
+    }
 
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-    const user = await User.create({ email, name, passwordHash });
+    const user = await User.create({ email, username, passwordHash });
 
     // optional: send verification email here
+    const token = signAccessToken(
+      { email },
+      process.env.JWT_ACCESS_SECRET,
+      "1d",
+    );
+    // const token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, {
+    //   expiresIn: "1d",
+    // });
 
-    return res.status(201).json({ message: "User created", userId: user._id });
+    const verifyUrl = `${process.env.BASE_URL}/auth/verifyy/${token}`;
+    await sendVerificationEmail(email, verifyUrl);
+
+    return res.status(201).json({
+      message: "Registration success, check your email!",
+      userId: user._id,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error" });
+  }
+};
+
+const verify = async (req, res) => {
+  try {
+    const { email } = verifyToken(
+      req.params.token,
+      process.env.JWT_ACCESS_SECRET,
+    );
+    // const { email } = jwt.verify(
+    //   req.params.token,
+    //   process.env.JWT_ACCESS_SECRET,
+    // );
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: "User already verified" });
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    return res.json({ message: "Account verified" });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ message: "Invalid or expired token" });
   }
 };
 
@@ -54,8 +102,9 @@ const login = async (req, res) => {
     const { email, password } = value;
 
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
       return res.status(401).json({ message: "Email atau password salah" });
+    }
 
     // Check lock
     if (user.isLocked) {
@@ -72,12 +121,17 @@ const login = async (req, res) => {
         user.lockUntil = Date.now() + LOCK_TIME;
       }
       await user.save();
+
       return res.status(401).json({ message: "Email atau password salah" });
     }
 
     // reset failed attempts
     user.failedLoginAttempts = 0;
     user.lockUntil = null;
+
+    if (!user.isVerified) {
+      return res.status(400).json({ message: "Please verify your email" });
+    }
 
     // create tokens
     const accessToken = signAccessToken(
@@ -183,4 +237,4 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, refresh, logout };
+module.exports = { register, verify, login, refresh, logout };

@@ -1,19 +1,21 @@
 <script>
 	import { register } from '$lib/services/authService';
 
-	let name = '';
+	let username = '';
 	let email = '';
 	let password = '';
 	let message = '';
 
 	async function handleSubmit() {
 		try {
-			const res = await register({ name, email, password });
+			const res = await register({ username, email, password });
 			message = res.message;
 		} catch (err) {
 			message = err.response?.data?.message || 'Error';
 		}
 	}
+
+	console.log("message", message);
 </script>
 
 <div class="flex min-h-screen items-center justify-center bg-gray-100">
@@ -22,9 +24,9 @@
 
 		<form on:submit|preventDefault={handleSubmit} class="space-y-4">
 			<input
-				placeholder="Name"
+				placeholder="Username"
 				type="text"
-				bind:value={name}
+				bind:value={username}
 				class="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none"
 			/>
 

@@ -5,6 +5,32 @@ Project ini menggunakan **npm workspaces** untuk mengatur 2 module utama:
 - **Frontend** → SvelteKit
 - **Backend** → (misalnya Express / Node.js)
 
+## .env
+
+File **.env** di Backend 
+
+```env
+PORT = 4000
+MONGO_URI = mongodb://localhost:27017/jwt_auth_rbac
+JWT_ACCESS_SECRET = change_this_to_a_long_random_secret
+JWT_REFRESH_SECRET = another_long_random_secret
+ACCESS_TOKEN_EXPIRES_IN = 15m
+REFRESH_TOKEN_EXPIRES_IN = 7d
+BCRYPT_SALT_ROUNDS = 12
+NODE_ENV = development
+CLIENT_ORIGIN = http://localhost:5173
+
+EMAIL_USER = example@gmail.com
+EMAIL_PASS = Pass_email
+BASE_URL = http://localhost:3000
+```
+
+File **.env** di Frontend
+
+```env
+VITE_API_URL = http://localhost:4000/api
+```
+
 ## 📦 Instalasi
 
 Jalankan di root project:
