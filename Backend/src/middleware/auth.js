@@ -8,7 +8,6 @@ const requireAuth = (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-    console.log("user id:", payload.sub);
     req.userId = payload.sub;
     req.user = payload;
     next();
