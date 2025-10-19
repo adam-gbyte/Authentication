@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, trim: true },
+    name: {
+      type: String,
+      trim: true,
+    },
     username: {
       type: String,
       required: true,
@@ -17,22 +20,37 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    passwordHash: { type: String, required: true },
-    roles: { type: [String], default: ["user"] },
+    passwordHash: {
+      type: String,
+      required: true,
+    },
+    roles: {
+      type: [String],
+      default: ["user"],
+    },
 
-    // refresh token (store hashed refresh token)
-    refreshTokenHash: { type: String, default: null },
+    refreshTokenHash: {
+      type: String,
+      default: null,
+    },
 
-    // brute force protection
-    failedLoginAttempts: { type: Number, default: 0 },
-    lockUntil: { type: Date, default: null },
+    failedLoginAttempts: {
+      type: Number,
+      default: 0,
+    },
+    lockUntil: {
+      type: Date,
+      default: null,
+    },
 
-    isVerified: { type: Boolean, default: false }, // optional email verification
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
 
-// virtual
 userSchema.virtual("isLocked").get(function () {
   return !!(this.lockUntil && this.lockUntil > Date.now());
 });

@@ -1,18 +1,38 @@
-const User = require("../models/User");
+const userModel = require("../models/userModel");
 
-const getUser = async (req, res) => {
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const user = await User.findById(req.userId).select(
-      "-passwordHash -refreshTokenHash -__v",
-    );
+    const user = await userModel
+      .findById(id)
+      .select("-passwordHash -refreshTokenHash -__v");
+
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User tidak ditemukan" });
     }
+
     return res.status(200).json(user);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
     return res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports = { getUser };
+const getAllUser = async (req, res) => {
+  try {
+    const users = await userModel.find().select("-passwordHash -__v");
+
+    if (!users) {
+      return res.status(404).json({ message: "User tidak ditemukan" });
+    }
+
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  getUserById,
+  getAllUser,
+};

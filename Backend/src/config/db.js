@@ -6,10 +6,7 @@ const clientOptions = {
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      process.env.MONGO_URI,
-      clientOptions,
-    );
+    const conn = await mongoose.connect(process.env.MONGO_URI, clientOptions);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     await mongoose.connection.db.admin().command({ ping: 1 });
   } catch (error) {

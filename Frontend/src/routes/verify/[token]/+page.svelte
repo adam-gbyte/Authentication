@@ -1,31 +1,24 @@
 <script>
-    import { verify } from '$lib/services/authService';
-    import { onMount } from 'svelte';
-    import { page } from '$app/stores';
-    import { goto } from '$app/navigation';
-    import { get } from 'svelte/store';
-    
-    let token = '';
-    
-    onMount(() => {
-        token = get(page).params.token;
-        verifyEmail(token);
-    });
-    
-    async function verifyEmail(token) {
-        try {
-        const response = verify(token);
-    
-        if (response.ok) {
-            // Redirect to login page after successful verification
-            goto('/login');
-        } else {
-            console.error('Email verification failed');
-        }
-        } catch (error) {
-        console.error('Error during email verification:', error);
-        }
-    }
+	import { page } from '$app/stores';
+	import { verifyEmail } from '$lib/api/auth.js';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	let message = '';
+
+	onMount(async () => {
+		const token = $page.params.token;
+		try {
+			const res = await verifyEmail(token);
+			message = res.message;
+			setTimeout(() => {
+				goto('/login');
+			}, 3000);
+		} catch (err) {
+			message = err.response?.data?.message || 'Verifikasi gagal';
+		}
+	});
 </script>
 
-<p class="">Verifying your email...</p>
+<h1>Verifikasi Akun</h1>
+<p>{message}</p>
