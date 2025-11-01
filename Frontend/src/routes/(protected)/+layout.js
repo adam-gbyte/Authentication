@@ -26,7 +26,7 @@ export async function load({ fetch }) {
 				}
 			} catch (error) {
 				setTimeout(() => {
-					goto('/auth/login');
+					goto('/login');
 				}, 3000);
 			}
 		}

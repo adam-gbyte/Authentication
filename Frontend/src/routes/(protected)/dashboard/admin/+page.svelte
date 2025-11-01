@@ -7,9 +7,10 @@
 	let error = '';
 
 	onMount(async () => {
+		const token = localStorage.getItem('accessToken');
 		try {
-			const data = await getAllUsers();
-			users = data.users;
+			const data = await getAllUsers(token);
+			users = data;
 		} catch (err) {
 			error = err.message;
 
@@ -35,3 +36,4 @@
 		{/each}
 	</ul>
 {/if}
+<a href="/dashboard" class="btn">Dashboard</a>

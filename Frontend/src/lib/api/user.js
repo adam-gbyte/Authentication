@@ -1,8 +1,8 @@
 import { accessToken } from '$lib/stores/auth';
 
-export async function getAllUsers() {
-	const token = localStorage.getItem('accessToken');
-	console.log('accessToken', accessToken);
+export async function getAllUsers(token) {
+	// const token = localStorage.getItem('accessToken');
+	// console.log('accessToken', accessToken);
 
 	const res = await fetch('http://localhost:3000/api/user/users', {
 		headers: {
@@ -31,7 +31,7 @@ export async function getUserById(id) {
 			Authorization: `Bearer ${token}`,
 			'Content-Type': 'application/json'
 		},
-		credentials: 'include' // penting jika backend pakai cookies untuk refresh token
+		credentials: 'include'
 	});
 
 	if (!res.ok) {

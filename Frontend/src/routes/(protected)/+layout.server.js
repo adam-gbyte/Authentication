@@ -5,7 +5,7 @@ export function load({ cookies }) {
 	const refreshToken = cookies.get('refreshToken');
 
 	if (!refreshToken) {
-		throw redirect(302, '/auth/login');
+		throw redirect(302, '/login');
 	}
 
 	return {};

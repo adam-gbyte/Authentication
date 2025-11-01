@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
+	// import favicon from '$lib/assets/favicon.svg';
 	import { initAuth } from '$lib/stores/auth';
 
 	let { children } = $props();
@@ -9,7 +9,8 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<!-- <link rel="icon" href={favicon} /> -->
+	<title>Nation</title>
 </svelte:head>
 
 {@render children?.()}

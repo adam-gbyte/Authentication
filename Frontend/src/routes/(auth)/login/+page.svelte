@@ -10,7 +10,7 @@
 		try {
 			const res = await loginUser(identifier, password);
 			localStorage.setItem('accessToken', res.accessToken);
-			message = 'Login berhasil!';
+			message = res.message;
 			goto('/dashboard');
 		} catch (err) {
 			message = err.response?.data?.message || 'Login gagal';

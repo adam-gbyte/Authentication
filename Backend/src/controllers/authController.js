@@ -122,13 +122,20 @@ const login = async (req, res) => {
       sameSite: "lax",
     });
 
+    // Simpan role ke cookie
+    res.cookie("roles", JSON.stringify(user.roles), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
     // Kirim accessToken ke Frontend
     return res.json({
       accessToken,
       user: { id: user._id, username: user.username },
     });
   } catch (error) {
-    return res.status(500).json({ message: "Login error" });
+    return res.status(500).json({ message: "Login error", error });
   }
 };
 
@@ -182,6 +189,13 @@ const refresh = async (req, res) => {
       sameSite: "lax",
     });
 
+    // Simpan role ke cookie
+    res.cookie("roles", JSON.stringify(user.roles), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
     // Kirim accessToken ke Frontend
     return res.json({
       accessToken,
@@ -216,6 +230,12 @@ const logout = async (req, res) => {
     });
 
     res.clearCookie("userId", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    res.clearCookie("roles", {
       httpOnly: true,
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
