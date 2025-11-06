@@ -19,7 +19,7 @@ export const loginUser = async (identifier, password) => {
 
 export const refreshToken = async () => {
 	const res = await api.post('/auth/refresh');
-	return res.data;
+	return res;
 };
 
 export const logoutUser = async () => {

@@ -1,5 +1,6 @@
 <script>
 	import { registerUser } from '$lib/api/auth.js';
+	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	let email = '';
@@ -11,6 +12,8 @@
 		try {
 			const res = await registerUser(email, username, password);
 			message = res.message;
+
+			goto('/login');
 		} catch (err) {
 			message = err.response?.data?.message || 'Terjadi kesalahan';
 		}

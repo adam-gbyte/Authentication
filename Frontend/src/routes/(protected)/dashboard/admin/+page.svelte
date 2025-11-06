@@ -6,8 +6,9 @@
 	let users = [];
 	let error = '';
 
+	const token = localStorage.getItem('accessToken');
+
 	onMount(async () => {
-		const token = localStorage.getItem('accessToken');
 		try {
 			const data = await getAllUsers(token);
 			users = data;

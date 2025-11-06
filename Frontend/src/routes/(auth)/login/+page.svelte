@@ -11,6 +11,7 @@
 			const res = await loginUser(identifier, password);
 			localStorage.setItem('accessToken', res.accessToken);
 			message = res.message;
+
 			goto('/dashboard');
 		} catch (err) {
 			message = err.response?.data?.message || 'Login gagal';

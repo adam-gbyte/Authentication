@@ -4,8 +4,8 @@
 
 	async function handleLogout() {
 		try {
-			await logoutUser(); // panggil API logout
-			goto('/login'); // redirect ke halaman login
+			await logoutUser();
+			goto('/login');
 		} catch (err) {
 			console.error('Logout gagal:', err);
 		}
