@@ -87,7 +87,7 @@ export const sendVerificationEmail = async (email, url) => {
     return transporter.sendMail({
       from: `"Ginvitations" <${EMAIL_USER}>`,
       to: email,
-      subject: "Verifikasi Akun Kamu",
+      subject: "Verifikasi Akun",
       html: htmlTemplate,
     });
   } catch (error) {
