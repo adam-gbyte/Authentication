@@ -1,6 +1,11 @@
 <script>
-	// SCRIPT
+	export let data;
+	const user = data.user;
 </script>
 
 <p>Dashboard</p>
-<a href="/dashboard/admin" class="btn">Admin</a>
+<h1>Selamat datang, {user.id}</h1>
+
+{#if user.roles.includes('admin')}
+	<a href="/dashboard/admin" class="btn">Admin</a>
+{/if}

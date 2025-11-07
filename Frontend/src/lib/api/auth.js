@@ -13,7 +13,7 @@ export const verifyEmail = async (token) => {
 
 export const loginUser = async (identifier, password) => {
 	const res = await api.post('/auth/login', { identifier, password });
-	// localStorage.setItem('accessToken', res.data.accessToken);
+	localStorage.setItem('accessToken', res.data.accessToken);
 	return res.data;
 };
 

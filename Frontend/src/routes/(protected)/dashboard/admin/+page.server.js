@@ -1,3 +1,4 @@
+// src/routes/dashboard/+page.server.js
 import { redirect, error } from '@sveltejs/kit';
 import { requireRole } from '$lib/auth.js';
 
