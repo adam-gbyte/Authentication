@@ -1,7 +1,7 @@
 <script>
 	import { loginUser } from '$lib/api/auth.js';
 	import { goto } from '$app/navigation';
-	import { Mail, Lock, LogIn, AlertCircle, Loader2 } from 'lucide-svelte';
+	import { Mail, Lock, LogIn, AlertCircle, Loader2, House } from 'lucide-svelte';
 
 	let identifier = '';
 	let password = '';
@@ -83,5 +83,13 @@
 			Belum punya akun?
 			<a href="/register" class="text-blue-600 hover:underline">Daftar</a>
 		</p>
+
+		<a
+			href="/"
+			class="mt-6 flex items-center justify-center gap-2 rounded-xl border border-gray-300 px-6 py-3 font-semibold text-gray-700 transition-all hover:bg-gray-100 dark:border-gray-700 dark:text-gray-100 dark:hover:bg-gray-800"
+		>
+			<House class="h-5 w-5" />
+			<span>Home</span>
+		</a>
 	</div>
 </div>
