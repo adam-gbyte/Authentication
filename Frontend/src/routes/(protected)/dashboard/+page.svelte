@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	const user = data.user;
+	console.log(data);
 </script>
 
 <p>Dashboard</p>
